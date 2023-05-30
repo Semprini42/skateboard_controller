@@ -42,7 +42,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  double _value = 20;
+  double _value = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -69,6 +69,11 @@ class _MyHomePageState extends State<MyHomePage> {
               onChanged: (newValue) {
                 setState(() {
                   _value = newValue;
+                });
+              },
+              onChangeEnd: (newValue) {
+                setState(() {
+                  _value = 0;
                 });
               },
             ),
