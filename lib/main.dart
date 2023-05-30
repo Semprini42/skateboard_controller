@@ -70,7 +70,11 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
           ),
-          Text('Value: ${_value.round().toString()}'),
+          Row(
+            children: [
+              Text('Value: ${_value.round().toString()}',),
+            ],
+          ),
         ],
       ),
     );
