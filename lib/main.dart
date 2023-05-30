@@ -16,9 +16,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'skateboard controller',
         theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
-        ),
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+            sliderTheme: SliderThemeData(
+              showValueIndicator: ShowValueIndicator.always,
+            )),
         home: MyHomePage(),
       ),
     );
@@ -34,7 +36,14 @@ class MyAppState extends ChangeNotifier {
   }
 }
 
-class MyHomePage extends StatelessWidget {
+class MyHomePage extends StatefulWidget {
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  double _value = 20;
+
   @override
   Widget build(BuildContext context) {
     var appState = context.watch<MyAppState>();
@@ -50,6 +59,21 @@ class MyHomePage extends StatelessWidget {
             },
             child: Text('Next'),
           ),
+          RotatedBox(
+            quarterTurns: 3,
+            child: Slider(
+              min: 0.0,
+              max: 1023.0,
+              value: _value,
+              label: '${_value.round()}',
+              onChanged: (newValue) {
+                setState(() {
+                  _value = newValue;
+                });
+              },
+            ),
+          ),
+          Text(_value.round().toString()),
         ],
       ),
     );
