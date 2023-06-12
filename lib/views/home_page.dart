@@ -3,9 +3,14 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 import 'package:skateboard_controller/controllers/bluetooth_controller.dart';
 import 'package:get/get.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +38,7 @@ class HomePage extends StatelessWidget {
                   ),
                   Center(
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () => controller.scanDevices(),
                       style: ElevatedButton.styleFrom(
                           foregroundColor: Colors.white,
                           backgroundColor: Colors.blue,
@@ -55,9 +60,24 @@ class HomePage extends StatelessWidget {
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: snapshot.data!.length,
-                              itemBuilder: (context, index) {});
+                              itemBuilder: (context, index) {
+                                final data = snapshot.data![index];
+                                if (data.device.name != " ") {
+                                  return Card(
+                                    elevation: 2,
+                                    child: ListTile(
+                                      title: Text(data.device.name),
+                                      subtitle: Text(data.device.id.id),
+                                      trailing: Text(data.rssi.toString()),
+                                    ),
+                                  );
+                                }
+                              });
+                        } else {
+                          return const Center(child: Text("No devices found"));
                         }
                       })
                 ],

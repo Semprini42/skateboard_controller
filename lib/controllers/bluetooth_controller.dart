@@ -8,8 +8,7 @@ class BluetoothController extends GetxController {
   // scans for bluetooth devices
   Future scanDevices() async {
     // stats scan for 5 seconds
-    flutterBlue.startScan(timeout: const Duration(seconds: 5));
-
+    await flutterBlue.startScan(timeout: Duration(seconds: 5));
     // stops the scan after time has passed
     flutterBlue.stopScan();
   }
