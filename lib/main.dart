@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'skateboard controller',
         theme: ThemeData(
-            // useMaterial3: true,
-            // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),
+            useMaterial3: true,
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
             ),
         // home: MyHomePage(),
         home: HomePage(),
@@ -113,6 +113,17 @@ class _HomePageState extends State<HomePage> {
                         return ElevatedButton(
                           onPressed: () async {
                             await data.device.connect();
+
+                            BluetoothDevice device = data.device;
+                            List<BluetoothService> services = await device.discoverServices();
+                            services.forEach((service) async {
+                              var characteristics = service.characteristics;
+                                for (BluetoothCharacteristic c in characteristics) {
+                                  if (c.properties.write) {
+                                    
+                                  }
+                                }
+                              });
                           },
                           child: ListTile(
                             title: Text(data.device.name),
@@ -139,20 +150,8 @@ class SpeedController extends StatefulWidget {
 class _SpeedController extends State<SpeedController> {
   double _value = 0;
 
-  void changeValue(_value) async {
-    List<BluetoothDevice> test =
-        await MyAppState().controller.flutterBlue.connectedDevices;
-    BluetoothDevice device = test[0];
-
-    List<BluetoothService> services = await device.discoverServices();
-    services.forEach((service) async {
-      var characteristics = service.characteristics;
-      for (BluetoothCharacteristic c in characteristics) {
-        if (c.properties.write) {
-          await c.write(utf8.encode(_value.toString()));
-        }
-      }
-    });
+  Future changeValue(_value) async {
+    await c.write(utf8.encode(_value.toString()), withoutResponse: true);
   }
 
   @override

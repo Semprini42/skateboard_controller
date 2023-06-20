@@ -15,3 +15,6 @@ class BluetoothController extends GetxController {
 
   Stream<List<ScanResult>> get scanResults => flutterBlue.scanResults;
 }
+
+
+// device id C0:49:EF:CC:0D:6A
